@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Showcase de Vendas - iPhone Mockup</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap');
+
+        :root {
+            --primary-green: #32CD32;
+            --bg-dark: #0a0a0a;
+            --iphone-w: 420px;
+            --iphone-h: 880px;
+            --safe-area-top: 75px; /* Aumentado para descer o conteúdo abaixo da saída de áudio */
+            --scale-factor: 1;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: white;
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .highlight-green {
+            color: var(--primary-green);
+            text-shadow: 0 0 20px rgba(50, 205, 50, 0.3);
+        }
+
+        .main-wrapper {
+            width: 100%;
+            max-width: 1300px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column-reverse; 
+            align-items: center;
+            justify-content: center;
+            gap: 40px;
+        }
+
+        @media (min-width: 1024px) {
+            .main-wrapper {
+                flex-direction: row;
+                padding: 40px;
+                gap: 80px;
+            }
+        }
+
+        .iphone-container {
+            perspective: 2000px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            width: calc(var(--iphone-w) * var(--scale-factor));
+            height: calc(var(--iphone-h) * var(--scale-factor));
+        }
+
+        @media (max-width: 480px) { :root { --scale-factor: 0.75; } }
+        @media (max-width: 380px) { :root { --scale-factor: 0.65; } }
+
+        .iphone-x {
+            position: relative;
+            width: var(--iphone-w);
+            height: var(--iphone-h);
+            background: #1c1c1e;
+            border-radius: 65px;
+            transform: scale(var(--scale-factor));
+            box-shadow: 
+                0 0 0 2px #3a3a3c,
+                0 0 0 12px #2c2c2e,
+                0 0 0 15px #1c1c1e,
+                0 40px 100px rgba(0,0,0,0.9),
+                inset 0 0 20px rgba(255,255,255,0.05);
+            flex-shrink: 0;
+            animation: floatRotate 8s ease-in-out infinite;
+            transform-style: preserve-3d;
+            transition: transform 0.3s ease;
+        }
+
+        @keyframes floatRotate {
+            0%, 100% { transform: scale(var(--scale-factor)) translateY(0px) rotateX(0deg) rotateY(0deg); }
+            50% { transform: scale(var(--scale-factor)) translateY(-25px) rotateX(3deg) rotateY(-3deg); }
+        }
+
+        .iphone-x:hover, .iphone-x:active {
+            animation-play-state: paused;
+            transform: scale(calc(var(--scale-factor) * 1.02)) translateY(0) rotateX(0) rotateY(0);
+        }
+
+        .dynamic-island {
+            position: absolute;
+            top: 22px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 130px;
+            height: 38px;
+            background: black;
+            border-radius: 22px;
+            z-index: 40;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .interaction-overlay {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.4);
+            z-index: 30;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            opacity: 1;
+            transition: opacity 0.5s ease;
+            pointer-events: none;
+            border-radius: 52px;
+        }
+
+        .iphone-x:hover .interaction-overlay, 
+        .iphone-x:active .interaction-overlay { opacity: 0; }
+
+        .hand-icon {
+            font-size: 50px;
+            color: var(--primary-green);
+            animation: tapHint 2s infinite;
+        }
+
+        @keyframes tapHint {
+            0%, 100% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.2); opacity: 1; }
+        }
+
+        .screen {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            right: 12px;
+            bottom: 12px;
+            background: #fff;
+            border-radius: 52px;
+            overflow: hidden;
+            z-index: 10;
+        }
+
+        .iframe-wrapper {
+            width: 100%;
+            /* Ajuste fino para esconder a barra do drive e respeitar o safe-area do mockup */
+            height: calc(100% + 55px - var(--safe-area-top));
+            margin-top: calc(-55px + var(--safe-area-top));
+            position: relative;
+        }
+
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .feature-item {
+            border-left: 2px solid transparent;
+            padding-left: 0;
+            transition: all 0.3s ease;
+        }
+        
+        .feature-item:hover {
+            border-left: 2px solid var(--primary-green);
+            padding-left: 15px;
+            background: linear-gradient(90deg, rgba(50, 205, 50, 0.05) 0%, transparent 100%);
+        }
+
+        .pulse-btn {
+            background: linear-gradient(135deg, #32CD32 0%, #228B22 100%);
+            box-shadow: 0 10px 30px rgba(50, 205, 50, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .glow-bg {
+            position: absolute;
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, rgba(50, 205, 50, 0.08) 0%, transparent 70%);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            z-index: -1;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="main-wrapper">
+        
+        <div class="flex-1 space-y-10 lg:space-y-12 animate-fade-in max-w-[600px] text-center lg:text-left">
+            <header class="space-y-6">
+                <div class="inline-flex items-center bg-green-900/20 text-green-400 px-4 py-2 rounded-full text-xs font-black tracking-widest border border-green-500/20 uppercase">
+                    Nova Era Digital
+                </div>
+                <h1 class="text-4xl lg:text-6xl font-black leading-[1.1] uppercase tracking-tighter">
+                    Venda mais com <br>
+                    <span class="highlight-green">Catálogos Online</span> e 
+                    <span class="text-white">Interativos!</span>
+                </h1>
+                <p class="text-lg text-gray-400 leading-relaxed max-w-[500px] mx-auto lg:mx-0">
+                    Abandone PDFs estáticos. Tenha um sistema onde seu cliente navega e compra com <span class="text-white font-semibold">um clique.</span>
+                </p>
+            </header>
+
+            <div class="space-y-6 text-left">
+                <div class="flex items-center feature-item group py-2">
+                    <div class="w-12 h-12 flex items-center justify-center bg-white/5 border border-white/10 rounded-xl group-hover:border-green-500/50 transition-colors mr-5">
+                        <i class="fas fa-bolt text-green-500 text-xl"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-lg text-white">Velocidade Extrema</h4>
+                        <p class="text-gray-500 text-sm">Pedidos finalizados em menos de 30 segundos.</p>
+                    </div>
+                </div>
+
+                <div class="flex items-center feature-item group py-2">
+                    <div class="w-12 h-12 flex items-center justify-center bg-white/5 border border-white/10 rounded-xl group-hover:border-green-500/50 transition-colors mr-5">
+                        <i class="fab fa-whatsapp text-green-500 text-xl"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-lg text-white">Integração Nativa</h4>
+                        <p class="text-gray-500 text-sm">Receba tudo organizado direto no seu WhatsApp.</p>
+                    </div>
+                </div>
+
+                <div class="flex items-center feature-item group py-2">
+                    <div class="w-12 h-12 flex items-center justify-center bg-white/5 border border-white/10 rounded-xl group-hover:border-green-500/50 transition-colors mr-5">
+                        <i class="fas fa-shield-alt text-green-500 text-xl"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-lg text-white">Segurança nos Dados</h4>
+                        <p class="text-gray-500 text-sm">Processamento ágil e seguro para cada transação.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pt-4">
+                <button class="pulse-btn w-full lg:w-auto px-12 py-6 rounded-2xl text-black font-black text-xl uppercase flex items-center justify-center gap-4 hover:scale-105 transition-transform">
+                    QUERO MEU CATÁLOGO AGORA
+                    <i class="fas fa-chevron-right text-sm"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="iphone-container">
+            <div class="glow-bg"></div>
+            <div class="iphone-x">
+                <div class="dynamic-island"></div>
+                <div class="interaction-overlay">
+                    <i class="fas fa-hand-pointer hand-icon"></i>
+                    <p class="text-white font-bold mt-4 uppercase tracking-widest text-xs text-center px-4">Toque para navegar</p>
+                </div>
+                <div class="screen">
+                    <div class="iframe-wrapper">
+                        <iframe src="https://drive.google.com/file/d/1s2Cx30AhlhrJuVPJUTZ-ZmbJnBBY_6jZ/preview" title="Catálogo Digital"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>
