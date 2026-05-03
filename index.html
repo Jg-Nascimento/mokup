@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!--<!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
@@ -254,7 +254,7 @@
             </div>
 
             <div class="pt-4">
-                <!-- Botão atualizado com link do WhatsApp -->
+                <!-- Botão atualizado com link do WhatsApp 
                 <a href="https://wa.me/558391438527?text=Ol%C3%A1!%20Vi%20o%20seu%20showcase%20e%20gostaria%20de%20saber%20mais%20sobre%20como%20criar%20meu%20cat%C3%A1logo%20interativo." 
                    target="_blank" 
                    class="pulse-btn w-full lg:w-auto px-12 py-6 rounded-2xl text-black font-black text-xl uppercase hover:scale-105 transition-transform">
@@ -282,5 +282,270 @@
 
     </div>
 
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo Pro | Showcase</title>
+    
+    <!-- Tailwind CSS (Play CDN) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    
+    <!-- React & Framer Motion from CDN -->
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/framer-motion@10.16.4/dist/framer-motion.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+
+    <style>
+        * { font-family: 'Inter', sans-serif; scroll-behavior: smooth; }
+        
+        .bg-brand-dark { background-color: #050505; }
+        .bg-brand-dark-2 { background-color: #0a0a0a; }
+        .text-brand-green { color: #00ff7f; }
+        .bg-brand-green { background-color: #00ff7f; }
+        .border-brand-green { border-color: #00ff7f; }
+        
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .text-outline {
+            color: transparent;
+            -webkit-text-stroke: 1px rgba(255, 255, 255, 0.1);
+        }
+
+        .text-shadow-glow {
+            text-shadow: 0 0 20px rgba(0, 255, 127, 0.3);
+        }
+
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+
+        @keyframes pulse-soft {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(0.98); }
+        }
+
+        .animate-pulse-soft {
+            animation: pulse-soft 3s infinite ease-in-out;
+        }
+    </style>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            green: '#00ff7f',
+                            dark: '#050505',
+                            'dark-2': '#0a0a0a',
+                            border: 'rgba(255, 255, 255, 0.05)'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, createContext, useContext, useMemo } = React;
+        const { motion, AnimatePresence } = FramerMotion;
+
+        const WHATSAPP_URL = "https://wa.me/558391438527?text=Olá!%20Vi%20seu%20SHOWCASE%20e%20gostaria%20de%20saber%20mais%20sobre%20o%20catálogo%20pro.";
+
+        const ThemeContext = createContext({
+            isDark: true,
+            toggleTheme: () => {},
+        });
+
+        // Helper components for Lucide icons (since we use CDN)
+        const Icon = ({ name, size = 24, className = "" }) => {
+            useEffect(() => {
+                lucide.createIcons();
+            }, [name]);
+            return <i data-lucide={name} style={{ width: size, height: size }} className={className}></i>;
+        };
+
+        function Navbar() {
+            const [isOpen, setIsOpen] = useState(false);
+            const { isDark, toggleTheme } = useContext(ThemeContext);
+
+            return (
+                <nav className="fixed top-0 w-full z-50 px-6 py-4">
+                    <div className={`max-w-7xl mx-auto ${isDark ? 'glass-panel border-brand-green/10' : 'bg-white/80 backdrop-blur-xl border-slate-200'} rounded-2xl px-6 py-3 flex items-center justify-start gap-12 border transition-colors duration-500`}>
+                        <div className="flex items-center gap-3">
+                            <div className="w-10 h-10 bg-brand-green rounded-xl flex items-center justify-center font-black text-black italic">CP</div>
+                            <div>
+                                <h1 className={`text-xs font-black leading-tight uppercase tracking-widest italic ${isDark ? 'text-white' : 'text-slate-900'}`}>CATÁLOGO<span className="text-brand-green italic">PRO</span></h1>
+                                <p className={`text-[9px] ${isDark ? 'opacity-40' : 'text-slate-400'} font-bold uppercase tracking-tighter`}>Advanced Sales Protocol</p>
+                            </div>
+                        </div>
+                        
+                        <div className="hidden md:flex items-center gap-8 flex-1">
+                            <div className={`flex gap-6 text-[10px] font-bold uppercase tracking-widest ${isDark ? 'text-white/40' : 'text-slate-500'}`}>
+                                <a href="#features" className="hover:text-brand-green transition-colors">/vantagens</a>
+                                <a href="#pricing" className="hover:text-brand-green transition-colors">/planos</a>
+                            </div>
+                        </div>
+
+                        <div className="flex items-center gap-4 ml-auto">
+                            <button 
+                                onClick={toggleTheme}
+                                className={`p-2 rounded-xl transition-all duration-300 ${isDark ? 'bg-white/5 text-white/40 hover:text-brand-green hover:bg-white/10' : 'bg-slate-100 text-slate-500 hover:text-brand-green hover:bg-slate-200'}`}
+                            >
+                                <Icon name={isDark ? "sun" : "moon"} size={18} />
+                            </button>
+
+                            <button className="md:hidden text-brand-green translate-x-2" onClick={() => setIsOpen(!isOpen)}>
+                                <Icon name={isOpen ? "x" : "menu"} size={24} />
+                            </button>
+                        </div>
+                    </div>
+                </nav>
+            );
+        }
+
+        function Hero() {
+            const [checkoutUrl, setCheckoutUrl] = useState(null);
+            const [hasInteracted, setHasInteracted] = useState(false);
+            const { isDark } = useContext(ThemeContext);
+
+            const products = [
+                { name: "Camiseta Básica", price: "49.90", img: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400", desc: "Camiseta confortável 100% algodão." },
+                { name: "Jaqueta Jeans", price: "159.90", img: "https://images.tcdn.com.br/img/img_prod/1306644/copia_jaqueta_jeans_feminina_manga_longa_botoes_com_elastano_lavado_claro_irlandys_103_1_d54fa2060599f00bc245306a44850f8e.jpg", desc: "Estilo urbano e resistente." },
+                { name: "Camisa Social", price: "99.90", img: "https://images.tcdn.com.br/img/img_prod/839931/camisa_social_lisa_passa_facil_masculina_slim_fit_urban_city_2453_1_a89a0c8c871912dea4f6c077abcbee95.jpg", desc: "Elegante para qualquer ocasião." }
+            ];
+
+            return (
+                <section className="pt-16 md:pt-12 pb-16 md:pb-20 px-6 relative overflow-hidden flex items-center min-h-screen">
+                    <div className="max-w-7xl mx-auto grid lg:grid-cols-12 gap-12 items-center">
+                        <div className="lg:col-span-6 z-10 text-center lg:text-left">
+                            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-brand-green/20 bg-brand-green/5 text-brand-green text-[10px] font-black uppercase tracking-[0.2em] mb-8">
+                                <div className="w-1.5 h-1.5 bg-brand-green rounded-full animate-pulse"></div>
+                                Automação de Vendas
+                            </div>
+                            
+                            <h1 className={`text-5xl md:text-8xl font-black leading-[0.9] mb-8 tracking-tighter uppercase italic ${isDark ? 'text-white' : 'text-slate-900'}`}>
+                                Chega de <br />
+                                <span className="text-brand-green text-shadow-glow">Responder</span> <br />
+                                <span className={isDark ? 'text-outline' : 'text-slate-300'}>Preço</span> <br />
+                                no Zap.
+                            </h1>
+                            
+                            <p className={`${isDark ? 'text-white/70' : 'text-slate-600'} text-base md:text-lg mb-6 leading-relaxed max-w-lg font-bold mx-auto lg:mx-0`}>
+                                Seu cliente entra, escolhe e o pedido chega <span className="font-black italic underline decoration-brand-green">organizado no seu WhatsApp</span>.
+                            </p>
+
+                            <div className="flex flex-col gap-4 mt-12">
+                                <a href={WHATSAPP_URL} target="_blank" className="bg-brand-green text-black px-10 py-6 rounded-2xl font-black text-xl hover:shadow-[0_0_40px_rgba(0,255,127,0.4)] transition-all uppercase tracking-tighter italic">
+                                    Quero Ativar Meu Sistema
+                                </a>
+                            </div>
+                        </div>
+
+                        <div className="lg:col-span-6 flex justify-center relative pt-0 pb-20 group">
+                            <div className="relative w-[340px] md:w-[400px] h-[700px] md:h-[800px] bg-black rounded-[60px] p-4 shadow-[0_0_100px_rgba(0,0,0,0.5)] border-[8px] border-[#1a1a1a]">
+                                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-40 h-8 bg-black rounded-b-3xl z-30"></div>
+                                <div className="w-full h-full bg-[#f8f9fa] rounded-[45px] overflow-hidden flex flex-col relative group/mockup">
+                                    <div 
+                                        className="flex-1 overflow-y-auto bg-white text-black scrollbar-hide relative"
+                                        onScroll={() => setHasInteracted(true)}
+                                        onMouseDown={() => setHasInteracted(true)}
+                                    >
+                                        {!hasInteracted && (
+                                            <div className="absolute inset-0 z-10 flex flex-col items-center justify-center bg-black/5 pointer-events-none transition-opacity duration-500">
+                                                <div className="w-16 h-16 text-brand-green mb-4 drop-shadow-[0_0_15px_rgba(0,255,127,0.5)]">
+                                                    <Icon name="pointer" size={64} />
+                                                </div>
+                                                <span className="text-white font-black text-2xl uppercase tracking-tighter italic drop-shadow-lg text-center leading-none">
+                                                    TOQUE PARA<br />NAVEGAR
+                                                </span>
+                                            </div>
+                                        )}
+
+                                        <header className="bg-[#080E1C] py-10 px-4 text-center">
+                                            <h1 className="text-white text-3xl font-bold mb-2">Minha Loja</h1>
+                                            <p className="text-white/60 text-sm">Catálogo de Produtos</p>
+                                        </header>
+
+                                        <div className="grid grid-cols-1 gap-4 p-4">
+                                            {products.map((item, idx) => (
+                                                <div key={idx} className="border border-slate-100 rounded-2xl overflow-hidden bg-white shadow-sm flex flex-col">
+                                                    <img src={item.img} className="w-full h-48 object-cover" />
+                                                    <div className="p-4">
+                                                        <h4 className="font-bold">{item.name}</h4>
+                                                        <p className="text-xs text-slate-400 mb-2">{item.desc}</p>
+                                                        <div className="flex justify-between items-center">
+                                                            <span className="text-brand-green font-black">R$ {item.price}</span>
+                                                            <button className="bg-brand-green text-black px-4 py-2 rounded-lg text-xs font-black">ADICIONAR</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            );
+        }
+
+        function Footer() {
+            const { isDark } = useContext(ThemeContext);
+            return (
+                <footer className={`py-12 border-t flex flex-col md:flex-row items-center px-6 justify-between text-[10px] font-mono uppercase tracking-widest ${isDark ? 'border-white/5 bg-brand-dark text-slate-500' : 'border-slate-200 bg-white text-slate-400'}`}>
+                    <div className="flex gap-6 items-center mb-4 md:mb-0">
+                        <span className="flex items-center gap-1">
+                            <div className="w-1.5 h-1.5 bg-brand-green rounded-full animate-pulse"></div>
+                            SERVER_STATUS: ONLINE
+                        </span>
+                    </div>
+                    <div className="flex items-center gap-6">
+                        <span>© 2026 PROTOCOL_CORE</span>
+                        <span className={isDark ? 'text-white/20' : 'text-slate-300'}>READY_FOR_DEPLOY</span>
+                    </div>
+                </footer>
+            );
+        }
+
+        function App() {
+            const [isDark, setIsDark] = useState(true);
+            const toggleTheme = () => setIsDark(!isDark);
+
+            return (
+                <ThemeContext.Provider value={{ isDark, toggleTheme }}>
+                    <div className={`min-h-screen transition-colors duration-700 ${isDark ? 'bg-brand-dark text-white' : 'bg-slate-50 text-slate-900'} overflow-x-hidden`}>
+                        <Navbar />
+                        <Hero />
+                        <section className="py-20 text-center">
+                            <h2 className="text-3xl font-black italic uppercase">E muito mais...</h2>
+                        </section>
+                        <Footer />
+                    </div>
+                </ThemeContext.Provider>
+            );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
 </body>
 </html>
